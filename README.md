@@ -1,5 +1,7 @@
 # Platsbanken
 
+> Antal personer i grupp: **3**
+
 ## Uppgift
 Ni ska skapa en webbapplikation som använder sig utav _Arbetsförmedlingens API_ för att hämta de senaste annonserna för en viss yrkesgrupp eller ett viss område. 
 
