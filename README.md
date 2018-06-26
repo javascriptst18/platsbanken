@@ -201,3 +201,173 @@ Exempel:
 **När**: den arbetssökande klickar på knappen för föregående sida
 
 **Så**: visas den föregående sidan i träfflistan
+
+---
+
+### **Egenskap**: _Annonsdetaljer_
+
+> För att hålla kvar besökaren på vår sida behöver vi implementera en sida för att visa annonser. Vi ska alltså ersätta urlen till platsbanken i listningen med en länk till vår egen sida.
+---
+
+**Scenario**: Visa annons
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**När**: den arbetssökande klickar på en länk till en jobbannons
+
+**Så**: visas detaljerna för den valda jobbannonsen
+
+---
+
+**Scenario**: Dela annons via url
+
+**Givet**  att en arbetssökande besöker startsidan
+
+**Och** den arbetssökande klickar på en länk till en jobbannons
+
+**När** den arbetssökande klickar på en knapp för att dela jobbannonsen
+
+**Så** visas en permanent url till den aktuella jobbannonsen
+
+---
+
+**Scenario**: Visa annons via permanent länk
+
+**Givet**: att en arbetssökande har en permanent url till en jobbannons
+
+**När**: den arbetssökande surfar till urlen
+
+**Så**: visas jobbannonsen för den aktuella urlen
+
+---
+
+### **Egenskap**: _Sparade annonser_
+> För att göra appen mer värdefull för arbetssökande ska man kunna spara annonser för att snabbt kunna komma tillbaka till dem.
+
+---
+
+**Scenario**: Spara annons
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**När**: den arbetssökande klickar på en länk till en jobbannons
+
+**Och**: klickar på en knapp för att spara jobbannonsen
+
+**Så**: sparas jobbannonsen i den arbetssökandes webbläsare
+
+---
+
+**Scenario**: Lista sparade annonser
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**Och**: att den arbetssökande har sparat en jobbannons
+
+**Så**: visas den sparade annonsen i en lista
+
+---
+
+**Scenario**: Visa sparad annons
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**Och**: att den arbetssökande har sparat en jobbannons
+
+**När**: den arbetssökande klickar på den sparade jobbannonsen
+
+**Så**: visas detaljerna för den valda jobbannonsen
+
+---
+
+### **Egenskap**: _Dela listningar_
+> Utöver att dela jobbannonser så kan det vara användbart att kunna dela hela listningar.
+
+---
+
+**Scenario**: Dela listning via url
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**När**: den arbetssökande klickar på en knapp för att dela listningen
+
+**Så**: visas en permanent url till den aktuella listningen
+
+---
+
+**Scenario**: Visa listning via permanent länk
+
+**Givet**: att en arbetssökande har en permanent url till en listning
+
+**När**: den arbetssökande surfar till urlen
+
+**Så**: visas listningen för den aktuella urlen
+
+---
+
+## Egenskap: Förbättrad sökning
+> Det är svårt att hitta rätt annonser om man inte vet exakt vilket yrke man letar efter. Därför ska vi implementera en förslagsmotor som vid inmatning av sökord visar förslag på yrkesbenämningar att söka efter.
+
+---
+
+**Scenario**: Förslag på yrken (autocomplete) vid sökning
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**När**: den arbetssökande matar in minst 3 tecken
+
+**Så**: visas en lista med de yrkesbenämningar som börjar på samma tecken
+
+---
+
+**Scenario**: Val av yrkesförslag
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**Och**: har matat in minst 3 tecken i sökfältet
+
+**Och**: att förslag på yrkesbenämningar visas
+
+**När**: den arbetssökande klickar på ett utav förslagen
+
+**Så**: visas en listning med annonser baserad på sökning av den valda yrkesbenämningen
+
+---
+
+### **Egenskap**: _Filtrering_
+> Det finns många annonser i platsbanken, för att göra verktyget ännu mer relevant för användarna ska vi tillföra filtrering av listningen på kommun.
+
+---
+
+**Scenario**: Kontroll för att filtrera listning
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**Och**: att det finns en listning med annonser från fler än 1 kommun
+
+**Så**: visas en kontroll för att välja någon utav eller ingen av kommunerna i listningen
+
+---
+
+**Scenario**: Filtrera listning på kommun
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**Och**: att det finns en listning med annonser från fler än 1 kommun
+
+**När**: den arbetssökande väljer en kommun från filterkontrollen
+
+**Så**: visas endast annonerna från vald kommun
+
+### **Egenskap**: _Visa annonser från hela landet_
+> Inför: releasen av slutversionen av appen till resten av Sverige behöver vi lägga till möjlighet att lista jobbannonser från hela landet.
+
+---
+
+**Scenario**: Möjlighet att välja bland alla tillgängliga län
+
+**Givet**: att en arbetssökande besöker startsidan
+
+**Så**: visas en meny där alla tillgängliga län finns listade
+
+---
