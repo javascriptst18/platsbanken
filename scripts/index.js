@@ -17,11 +17,13 @@ const UIElements = {
  * ads and then also if we need to do a search. We also may want to load
  * more results which is why we have 'page' parameter. 
  */
-async function searchByCriteria(searchCriteria, page = 1) {
-  const responseObject = await fetch(`${state.baseURL}${searchCriteria}&sida=${page}`);
-  const convertedResponse = await responseObject.json();
-  const matchningsdata = convertedResponse.matchningslista.matchningdata;
-  return matchningsdata;
+function searchByCriteria(searchCriteria, page = 1) {
+  return fetch(`${state.baseURL}${searchCriteria}&sida=${page}`)
+    .then((response) => response.json())
+    .then((convertedResponse) => {
+      const matchningsdata = convertedResponse.matchningslista.matchningdata;
+      return matchningsdata;
+    });
 }
 
 function appendAdsToHTML(listOfAds){
@@ -40,22 +42,28 @@ function createAd(ad) {
   `;
 }
 
-async function fetchAndCreateAds(){
-  const response = await searchByCriteria('platsannonser/matchning?lanid=1&yrkesomradeid=3&antalrader=30');
-  appendAdsToHTML(response);
+function fetchAndCreateAds(){
+  searchByCriteria('platsannonser/matchning?lanid=1&yrkesomradeid=3&antalrader=30')
+    .then((response) => {
+      appendAdsToHTML(response);
+    });
 }
 
 function bindEventListeners(){
-  UIElements.selectCounty.addEventListener('change', async function (event) {
+  UIElements.selectCounty.addEventListener('change', function (event) {
     state.selectedCounty = event.target.value;
-    const response = await searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`);
-    appendAdsToHTML(response);
+    searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`)
+      .then((response) => {
+        appendAdsToHTML(response);
+      })
   });
 
   UIElements.showMore.addEventListener('click', async function(){
     state.page++;
-    const response = await searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`, state.page);
-    appendAdsToHTML(response);
+    searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`, state.page)
+      .then((response) =>{
+        appendAdsToHTML(response);
+      })
   })
 }
 
