@@ -1,4 +1,7 @@
-// url is used in whole app, put in an object in global scope
+/* url is used in whole app, put in an object in global scope. We are avoiding
+ * a lot of stray global variables and grouping similar variables
+ */
+
 const state = {
   baseURL: 'http://api.arbetsformedlingen.se/af/v0/',
   page: 1,
@@ -15,12 +18,16 @@ const UIElements = {
 /**
  * We need to change the search depending on if want to load the initial
  * ads and then also if we need to do a search. We also may want to load
- * more results which is why we have 'page' parameter. 
+ * more results which is why we have 'page' parameter. This is set to 1 by default
+ * if we were to forget to supply a page number
  */
 function searchByCriteria(searchCriteria, page = 1) {
   return fetch(`${state.baseURL}${searchCriteria}&sida=${page}`)
     .then((response) => response.json())
     .then((convertedResponse) => {
+      /**
+       * The data is nested so we need to extract the 'matchingdata' variable
+       */
       const matchningsdata = convertedResponse.matchningslista.matchningdata;
       return matchningsdata;
     });
