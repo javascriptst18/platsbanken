@@ -23,20 +23,14 @@ const UIElements = {
  * more results which is why we have 'page' parameter. This is set to 1 by default
  * if we were to forget to supply a page number
  */
-function searchByCriteria(searchCriteria, page = 1) {
+async function searchByCriteria(searchCriteria, page = 1) {
   /**
    * Using return on the whole fetch means that we can use 'then'
    * on the whole function later when we want to get the data
    */
-  return fetch(`${state.baseURL}${searchCriteria}&sida=${page}`)
-    .then((response) => response.json())
-    .then((convertedResponse) => {
-      /**
-       * The data is nested so we need to extract the 'matchingdata' variable
-       */
-      const matchningsdata = convertedResponse.matchningslista.matchningdata;
-      return matchningsdata;
-    });
+  const response = await fetch(`${state.baseURL}${searchCriteria}&sida=${page}`)
+  const convertedResponse = await response.json();
+  return convertedResponse.matchningslista.matchningdata;
 }
 
 function appendAdsToHTML(listOfAds){
@@ -68,15 +62,13 @@ function createAd(ad) {
   `;
 }
 
-function fetchAndCreateAds(){
+async function fetchAndCreateAds(){
   /**
    * Because we used 'return' inside of 'searchByCriteria' we can use 'then'
    * on the whole function. The function will return already converted JavaScript array
    */
-  searchByCriteria('platsannonser/matchning?lanid=1&yrkesomradeid=3&antalrader=30')
-    .then((response) => {
-      appendAdsToHTML(response);
-    });
+  const response = await searchByCriteria('platsannonser/matchning?lanid=1&yrkesomradeid=3&antalrader=30')
+  appendAdsToHTML(response);
 }
 
 /**
@@ -85,23 +77,19 @@ function fetchAndCreateAds(){
  */
 function bindEventListeners(){
   // UIElements.selectCounty is at the top of global scope
-  UIElements.selectCounty.addEventListener('change', function () {
+  UIElements.selectCounty.addEventListener('change', async function () {
     // Save the value so it can be used in other functions
     state.selectedCounty = UIElements.selectCounty.value;
-    searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`)
-      .then((response) => {
-        appendAdsToHTML(response);
-      })
+    const response = await searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`)
+    appendAdsToHTML(response);
   });
 
-  UIElements.showMore.addEventListener('click', function(){
+  UIElements.showMore.addEventListener('click', async function(){
     // Increase the page number 'globally' so we can know which page we are on
     state.page++;
     // Use the page number as second argument to the function, default is 1.
-    searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`, state.page)
-      .then((response) =>{
-        appendAdsToHTML(response);
-      })
+    const response = await searchByCriteria(`platsannonser/matchning?lanid=${state.selectedCounty}`, state.page)
+    appendAdsToHTML(response);
   })
 }
 
