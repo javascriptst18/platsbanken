@@ -61,9 +61,11 @@ function appendAdsToHTML(listOfAds){
  */
 function createAd(ad) {
   return `
-    <article class="card" id="${ad.annonsid}">
+    <article class="card" id="${ad.annonsid}" data-countyId="2">
       <p><strong>${ad.annonsrubrik}</strong></p>
       <p><em>${ad.kommunnamn}</em></p>
+      <button class="info">More info</button>
+      <button class="delete">Delete</button>
     </article>
   `;
 }
@@ -76,6 +78,7 @@ function fetchAndCreateAds(){
   searchByCriteria('platsannonser/matchning?lanid=1&yrkesomradeid=3&antalrader=30')
     .then((response) => {
       appendAdsToHTML(response);
+      bindCardListeners();
     });
 }
 
@@ -109,3 +112,17 @@ function bindEventListeners(){
 bindEventListeners();
 // And fetch the initial ads
 fetchAndCreateAds();
+
+
+function bindCardListeners(){
+  const cards = document.querySelectorAll('.card');
+  for(let card of cards){
+    card.addEventListener('click', function(event){
+      console.group('Click events');
+      console.log('Event: ', event.target.className);
+      console.log('dataset', this.dataset.countyid);
+      console.log('This:', this.id);
+      console.groupEnd();
+    })
+  }
+}
